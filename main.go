@@ -306,8 +306,8 @@ func printPhaseDone(phase string, dur time.Duration, count int, unit string, err
 	if errs > 0 {
 		errStr = fmt.Sprintf("  %s", color(colorRed, fmt.Sprintf("%d error(s)", errs)))
 	}
-	fmt.Printf("       %s %s%s: %d %s in %s%s\n",
-		color(colorGreen, "✓"),
+	fmt.Printf("       %s %s%s: %d %s (in %s%s)\n",
+		color(colorGreen, "+"),
 		color(colorGray, phase),
 		"",
 		count, unit,

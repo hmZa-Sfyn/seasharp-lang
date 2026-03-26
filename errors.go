@@ -119,7 +119,7 @@ func printDiag(e *TranspileError, src map[string][]string) {
 				caretLen = 1
 			}
 		}
-		caretLine := strings.Repeat(" ", col) + color(colorRed, strings.Repeat("^", caretLen))
+		caretLine := strings.Repeat(" ", col) + color(colorRed, strings.Repeat("^", caretLen-1))
 		sb.WriteString(fmt.Sprintf("  %s %s\n", color(colorBlue, gutter+" |"), caretLine))
 	}
 
