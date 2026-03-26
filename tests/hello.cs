@@ -9,6 +9,14 @@ namespace Examples {
             int x = 10;
             int y = 20;
             Console.WriteLine(x + y);
+
+	    //List<int> nums = [0,2,3,4,5,6,7,8,9];
+
+	    //foreach (int num in nums) {
+	    //    x += num;
+	    //}
+
+	    //Console.WriteLine(x);
         }
     }
 }
