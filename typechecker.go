@@ -845,7 +845,7 @@ func (tc *TypeChecker) checkExpr(e Expr) *CsType {
 	case *CallExpr:
 		return tc.checkCall(v)
 	case *MemberExpr:
-		return tc.checkMember(v)
+		return tc.checkMemberExpr(v)
 	case *IndexExpr:
 		return tc.checkIndex(v)
 	case *NewExpr:
@@ -1034,13 +1034,45 @@ func (tc *TypeChecker) checkCall(c *CallExpr) *CsType {
 	}
 	return &CsType{Kind: TK_UNKNOWN, Name: "?"}
 }
+func (tc *TypeChecker) checkMemberExpr(m *MemberExpr) *CsType {
+	objType := tc.checkExpr(m.Object)
+	member := m.Member.Lexeme
 
-/*
-	func (tc *TypeChecker) checkMember(m *MemberExpr) *CsType {
-		tc.checkExpr(m.Object)
-		return &CsType{Kind: TK_UNKNOWN, Name: "?"}
+	// Well-known member types on known types
+	if objType != nil {
+		switch objType.Kind {
+		case TK_STRING:
+			switch member {
+			case "Length":
+				return tc.typeMap["int"]
+			case "ToUpper", "ToLower", "Trim", "TrimStart", "TrimEnd",
+				"Replace", "Substring", "PadLeft", "PadRight":
+				return tc.typeMap["string"]
+			case "Contains", "StartsWith", "EndsWith", "Equals":
+				return tc.typeMap["bool"]
+			case "IndexOf", "LastIndexOf", "CompareTo":
+				return tc.typeMap["int"]
+			case "ToCharArray":
+				return &CsType{Kind: TK_ARRAY, Name: "char[]",
+					ElemType: tc.typeMap["char"]}
+			}
+		case TK_ARRAY:
+			switch member {
+			case "Length":
+				return tc.typeMap["int"]
+			}
+		}
 	}
-*/
+
+	// Check if it's a static member access on a known type (e.g. Console.WriteLine)
+	if ident, ok := m.Object.(*IdentExpr); ok {
+		if knownType, exists := tc.typeMap[ident.Tok.Lexeme]; exists {
+			_ = knownType // could resolve static members here in future
+		}
+	}
+
+	return &CsType{Kind: TK_UNKNOWN, Name: "?"}
+}
 func (tc *TypeChecker) checkIndex(i *IndexExpr) *CsType {
 	objType := tc.checkExpr(i.Object)
 	idxType := tc.checkExpr(i.Index)

@@ -13,11 +13,11 @@ const version = "0.1.0"
 
 const helpText = `
 ╔══════════════════════════════════════════════════════════════╗
-║         cstranspiler — C# → C++ Transpiler  v` + version + `         ║
+║         csx — C# → C++ Transpiler  v` + version + `         ║
 ╚══════════════════════════════════════════════════════════════╝
 
 USAGE:
-    cstranspiler [options] <input.cs>
+    csx [options] <input.cs>
 
 OPTIONS:
     -o <file>       Output binary path (default: ./a.out)
@@ -38,10 +38,10 @@ ANNOTATIONS:
     @inline         Hint to compiler to inline a method
 
 EXAMPLES:
-    cstranspiler program.cs
-    cstranspiler -o myapp -O3 program.cs
-    cstranspiler -test program.cs
-    cstranspiler -emit-cpp -cpp-out out.cpp program.cs
+    csx program.cs
+    csx -o myapp -O3 program.cs
+    csx -test program.cs
+    csx -emit-cpp -cpp-out out.cpp program.cs
 
 C# FEATURES SUPPORTED:
     • Classes, structs, interfaces, enums (with inheritance)
@@ -85,7 +85,7 @@ func main() {
 	flag.Parse()
 
 	if *showVer {
-		fmt.Printf("cstranspiler v%s\n", version)
+		fmt.Printf("csx v%s\n", version)
 		os.Exit(0)
 	}
 
