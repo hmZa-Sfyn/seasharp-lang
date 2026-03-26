@@ -13,7 +13,7 @@ namespace Examples {
                 Console.WriteLine(n);
             }
 
-            int[] arr = new int[5];
+            int[] arr = new int[];
             for (int i = 0; i < arr.Length; i++) {
                 arr[i] = i * i;
             }
